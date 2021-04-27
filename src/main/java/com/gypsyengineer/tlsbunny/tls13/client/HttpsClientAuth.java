@@ -98,16 +98,7 @@ public class HttpsClientAuth extends SingleConnectionClient {
                         .type(finished)
                         .update(Context.Element.client_finished))
                 .run(WrappingHandshakeDataIntoTLSCiphertext::new)
-                .send(OutgoingData::new)
-
-                // send application data
-                .run(PreparingHttpGetRequest::new)
-                .run(WrappingApplicationDataIntoTLSCiphertext::new)
-                .send(OutgoingData::new)
-
-                // receive session tickets and application data
-                .until(Condition::applicationDataReceived)
-                .receive(IncomingMessages::fromServer);
+                .send(OutgoingData::new);
     }
 
 }
